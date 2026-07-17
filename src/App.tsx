@@ -5,10 +5,17 @@ import Sandbox from './components/Sandbox';
 import { GripHorizontal } from 'lucide-react';
 
 function App() {
-  const [widgets, setWidgets] = useState<{ id: string, code: string }[]>([]);
+  const [widgets, setWidgets] = useState<{ id: string, code: string }[]>(() => {
+    const saved = localStorage.getItem('sticky-widgets');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const handleAddWidget = (code: string) => {
-    setWidgets(prev => [...prev, { id: Date.now().toString(), code }]);
+    setWidgets(prev => {
+      const updated = [...prev, { id: Date.now().toString(), code }];
+      localStorage.setItem('sticky-widgets', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (

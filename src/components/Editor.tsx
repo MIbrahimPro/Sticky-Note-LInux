@@ -7,7 +7,10 @@ const Editor = () => {
     extensions: [
       StarterKit,
     ],
-    content: '<h2>Sticky Canvas</h2><p>Start typing your markdown notes here...</p>',
+    content: localStorage.getItem('sticky-notes') || '<h2>Sticky Canvas</h2><p>Start typing your markdown notes here...</p>',
+    onUpdate: ({ editor }) => {
+      localStorage.setItem('sticky-notes', editor.getHTML());
+    },
     editorProps: {
       attributes: {
         class: 'prose prose-invert focus:outline-none max-w-none',
